@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Birthday Balloon Game for Sajid</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #add8ff, #ffedf2);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Messi / FCB themed top banner */
+  #banner {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    background: #004d98; /* FCB blue */
+    color: #ffcb00; /* FCB yellow */
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  #gameArea {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .balloon {
+    position: absolute;
+    width: 70px;
+    height: 90px;
+    background-color: #ff4d6d;
+    border-radius: 50% 50% 45% 45%;
+    cursor: pointer;
+    box-shadow: inset -5px -10px 0 rgba(0,0,0,0.1);
+    animation: float 4s linear;
+  }
+
+  /* football patterned balloons */
+  .football {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    background-image: radial-gradient(circle, black 20%, white 21%),
+                      radial-gradient(circle, white 40%, black 41%);
+    background-size: 30px 30px, 18px 18px;
+    background-position: center, center;
+    background-repeat: no-repeat;
+    border: 3px solid #000;
+  }
+
+  .messi {
+    background: linear-gradient(180deg, #004d98 50%, #a50044 50%);
+    border: 3px solid #ffcb00;
+  }
+
+  @keyframes float {
+    from { transform: translateY(110vh); }
+    to { transform: translateY(-150px); }
+  }
+
+  /* Final message */
+  #messageBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 20px;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+    line-height: 1.6;
+  }
+
+  #messageContent{
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    width: 85%;
+    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+
+</style>
+</head>
+<body>
+
+<div id="banner">⚽ Pop 10 Balloons to Reveal Messi's Special Birthday Message for Sajid 🎈</div>
+
+<div id="gameArea"></div>
+
+<div id="messageBox">
+  <div id="messageContent">
+    <strong>Happy Birthday Sajid 🎉💙</strong><br><br>
+    I am so happy I get to share this day with you.<br>
+    You make my everyday better, thought you should know.<br>
+    All I want for your special day is that next year this time,<br>
+    you are even better — I hope and pray everything good written
+    for you gets here asap.<br>
+    You deserve all the happiness in the world. 💛
+  </div>
+</div>
+
+<script>
+  const gameArea = document.getElementById("gameArea");
+  let popped = 0;
+  const goal = 10;
+
+  function createBalloon() {
+    const balloon = document.createElement("div");
+
+    // Randomly choose balloon style
+    const types = ["balloon", "football", "messi"];
+    const randomType = types[Math.floor(Math.random() * types.length)];
+    balloon.classList.add(randomType);
+    balloon.classList.add("balloon");
+
+    // Random position
+    balloon.style.left = Math.random() * (window.innerWidth - 80) + "px";
+    balloon.style.bottom = "-120px";
+
+    // Remove balloon automatically after animation
+    balloon.addEventListener("animationend", () => balloon.remove());
+
+    // Pop event
+    balloon.addEventListener("click", () => {
+      popped++;
+      balloon.remove();
+
+      if (popped >= goal) {
+        showMessage();
+      }
+    });
+
+    gameArea.appendChild(balloon);
+  }
+
+  function showMessage() {
+    const msg = document.getElementById("messageBox");
+    msg.style.opacity = "1";
+    msg.style.pointerEvents = "all";
+  }
+
+  // Create balloons repeatedly
+  setInterval(createBalloon, 800);
+</script>
+
+</body>
+</html>
